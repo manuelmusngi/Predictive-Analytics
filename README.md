@@ -1,4 +1,4 @@
-# Forecasting-Projects
+# Statistical Learning and Time Series Analysis
 
-Time Series Analysis and Forecasting Projects.
+Statistical Learning an Time Series Analysis Projects.
 
