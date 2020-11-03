@@ -1,4 +1,4 @@
 # Statistical Learning and Time Series Analysis
 
-Statistical Learning an Time Series Analysis Projects.
+Statistical Learning and Time Series Analysis Projects Portfolio.
 
