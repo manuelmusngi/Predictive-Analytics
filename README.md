@@ -1,6 +1,7 @@
-# Statistical Learning and Time Series Modeling
-Statistical learning theory is a framework for machine learning drawing from the fields of statistics and functional analysis.[1][2] Statistical learning theory deals with the problem of finding a predictive function based on data.
+# Predictive Analytics
 
-A time series is a series of data points indexed (or listed or graphed) in time order. Most commonly, a time series is a sequence taken at successive equally spaced points in time. Thus it is a sequence of discrete-time data. Time Series analysis can be useful to see how a given asset, security or economic variable changes over time. 
+Predictive analytics encompasses a variety of statistical techniques from data mining, predictive modelling, and machine learning, that analyze current and historical facts to make predictions about future or otherwise unknown events.[1][2]
 
+In business, predictive models exploit patterns found in historical and transactional data to identify risks and opportunities. Models capture relationships among many factors to allow assessment of risk or potential associated with a particular set of conditions, guiding decision-making for candidate transactions.[3]
+ 
 Source: Wikipedia
