@@ -41,12 +41,9 @@
 # SSE: Sum of squared errors
 # 
 # SST: Total sum of squares
-
+#
 # ## Import Libraries
-
-# In[ ]:
-
-
+#
 #main library
 import pandas as pd
 import numpy as np
@@ -79,133 +76,58 @@ get_ipython().run_line_magic('matplotlib', 'inline')
 
 # suppress system warnings
 import sys
-
 if not sys.warnoptions:
     import warnings
     warnings.simplefilter("ignore")
 
-
 # ## Import data
-
-# In[ ]:
-
-
+#
 #import data
 data_path = '../input/insurance-premium-prediction/insurance.csv'
 data = pd.read_csv(data_path)
 
-
-# In[ ]:
-
-
 #make a copy of the data for data exploration
 df = data.copy()
 
-
 # ## Exploratory Data Analysis (EDA)
-
-# In[ ]:
-
-
+#
 #see the first 15 lines of data
 print(data.head(15))
-
-
-# In[ ]:
-
-
 data.shape
-
-
-# In[ ]:
-
-
 data.describe()
-
-
-# In[ ]:
-
-
 data.describe().transpose()
-
-
-# In[ ]:
-
-
 data.info()
-
-
-# In[ ]:
-
-
 print(data.isnull().sum())
 
-
 # ## Data Visualization
-
+#
 # Identify clusters, outliers, and possible correlations between features or variables.
-
-# In[ ]:
-
-
 sns.pairplot(df);
-
-
-# In[ ]:
-
-
 sns.scatterplot(x='bmi', y='expenses', data=df, hue='expenses');
-
-
-# In[ ]:
-
-
 sns.kdeplot(df['expenses'], shade=True, color='orangered');
 
-
 # detect any outliers.
-
-# In[ ]:
-
-
 df.plot(kind='box', subplots=True, layout=(3,3), sharex=False, sharey=False, figsize=(20,20), color='deeppink');
 
-
 # analyze any skewness.
-
-# In[ ]:
-
-
 df.plot(kind='density', subplots=True, layout=(3,3), sharex=False, figsize=(20,20));
-
-
-# In[ ]:
-
-
 mask = np.tril(df.corr())
 sns.heatmap(df.corr(), fmt='.1g', annot=True, cmap='cool', mask=mask);
 
-
 # ## Data Preprocessing
-
+#
 # ### Handle missing values
-
-# In[ ]:
-
-
+#
 #check how many values are missing (NaN) before we apply the methods below 
 count_nan = data.isnull().sum() # the number of missing values for every column
 print(count_nan[count_nan > 0])
 
 
 # ### Convert categorial data into numerical data
-
-# In[ ]:
-
-
+#
 #option0: 
 #pandas factorizing: maps each category to a different integer = label encoder 
-
+#
 #create series for pandas
 region = data["region"] # series 
 region_encoded, region_categories = pd.factorize(region)
@@ -217,35 +139,25 @@ print(region_categories) #list of categories
 print(region_encoded[:10]) #encoded numbers for categories 
 print(factor_region_mapping) # print factor mapping
 
-
-# In[ ]:
-
-
 #option1: 
 #pandas get_dummies: maps each category to 0 (cold) or 1 (hot) = one hot encoder 
 
 #create series for pandas
 region = data["region"] # series 
 region_encoded = pd.get_dummies(region, prefix='')
-
 print("Pandas get_dummies function for one hot encoding with series")  
-
 print(region[:10]) #original version 
 print(region_encoded[:10]) #encoded numbers for categories 
 
-
-# In[ ]:
-
-
 #option2: 
 #sklearn label encoding: maps each category to a different integer
-
+#
 #create ndarray for label encoding (sklearn)
 sex = data.iloc[:,1:2].values
 smoker = data.iloc[:,4:5].values
 
 #label encoder = le
-
+#
 ## le for sex
 le = LabelEncoder()
 sex[:,0] = le.fit_transform(sex[:,0])
@@ -266,14 +178,10 @@ print("Sklearn label encoder results for smoker:")
 print(le_smoker_mapping)
 print(smoker[:10])
 
-
-# In[ ]:
-
-
 #option3: 
 #sklearn one hot encoding: maps each category to 0 (cold) or 1 (hot) 
 #one hot encoder = ohe
-
+#
 #create ndarray for one hot encodoing (sklearn)
 region = data.iloc[:,5:6].values #ndarray
 
@@ -286,20 +194,11 @@ region.columns = ['northeast', 'northwest', 'southeast', 'southwest']
 print("Sklearn one hot encoder results for region:")  
 print(region[:10])
 
-
 # ## Create train and test data
-
-# In[ ]:
-
-
 data.info()
 
-
-# In[ ]:
-
-
 #putting the data together:
-
+#
 ##take the numerical data from the original data
 X_numeric = data[['age', 'bmi', 'children']].copy()
 
@@ -312,31 +211,21 @@ y_final = data[['expenses']].copy()
 #Test train split
 X_train, X_test, y_train, y_test = train_test_split(X_final, y_final, test_size = 0.30, random_state = 0 )
 
-
 # ## Feature Scaling
-
-# In[ ]:
-
-
+#
 ##normalized scaler (fit transform on train, fit only on test)
 n_scaler = MinMaxScaler()
 X_train = n_scaler.fit_transform(X_train.astype(np.float))
 X_test= n_scaler.transform(X_test.astype(np.float))
-
 
 #standard scaler (fit transform on train, fit only on test)
 s_scaler = StandardScaler()
 X_train = s_scaler.fit_transform(X_train.astype(np.float))
 X_test= s_scaler.transform(X_test.astype(np.float))
 
-
 # ## Modeling
-
+#
 # ### LinearRegression
-
-# In[ ]:
-
-
 lr = LinearRegression().fit(X_train,y_train)
 y_train_pred = lr.predict(X_train)
 y_test_pred = lr.predict(X_test)
@@ -348,12 +237,7 @@ print('lr train score %.3f, lr test score: %.3f' % (
 lr.score(X_train,y_train),
 lr.score(X_test, y_test)))
 
-
 # ### PolynomialRegression
-
-# In[ ]:
-
-
 poly = PolynomialFeatures (degree = 3)
 X_poly = poly.fit_transform(X_final)
 
@@ -375,12 +259,7 @@ print('poly train score %.3f, poly test score: %.3f' % (
 poly_lr.score(X_train,y_train),
 poly_lr.score(X_test, y_test)))
 
-
 # ### SupportVectorRegression
-
-# In[ ]:
-
-
 svr = SVR(kernel='linear', C = 300)
 
 #test train split
@@ -401,12 +280,7 @@ print('svr train score %.3f, svr test score: %.3f' % (
 svr.score(X_train,y_train),
 svr.score(X_test, y_test)))
 
-
 # ### DecisionTreeRegressor
-
-# In[ ]:
-
-
 dt = DecisionTreeRegressor(random_state=0)
 
 #test train split
@@ -416,7 +290,6 @@ X_train, X_test, y_train, y_test = train_test_split(X_final, y_final, test_size 
 sc = StandardScaler()
 X_train = sc.fit_transform(X_train.astype(np.float))
 X_test= sc.transform(X_test.astype(np.float))
-
 
 #fit model
 dt = dt.fit(X_train,y_train.values.ravel())
@@ -428,12 +301,7 @@ print('dt train score %.3f, dt test score: %.3f' % (
 dt.score(X_train,y_train),
 dt.score(X_test, y_test)))
 
-
 # ### RandomForestRegression
-
-# In[ ]:
-
-
 forest = RandomForestRegressor(n_estimators = 100,
                               criterion = 'mse',
                               random_state = 1,
@@ -456,12 +324,8 @@ print('forest train score %.3f, forest test score: %.3f' % (
 forest.score(X_train,y_train),
 forest.score(X_test, y_test)))
 
-
 # ## Comparing the best models and hyperparameter tuning
-
-# In[ ]:
-
-
+#
 #Function to print best hyperparamaters: 
 def print_best_params(gd_model):
     param_dict = gd_model.best_estimator_.get_params()
@@ -481,33 +345,17 @@ X_test= sc.transform(X_test.astype(np.float))
 
 
 # ### SupportVectorRegression Hyperparameter Tuning: best parameters
-
-# In[ ]:
-
-
 param_grid_svr = dict(kernel=[ 'linear', 'poly'],
                      degree=[2],
                      C=[600, 700, 800, 900],
                      epsilon=[0.0001, 0.00001, 0.000001])
 svr = GridSearchCV(SVR(), param_grid=param_grid_svr, cv=5, verbose=3)
 
-
-# In[ ]:
-
-
 #fit model
 svr = svr.fit(X_train,y_train.values.ravel());
 
-
-# In[ ]:
-
-
 #print(svr.best_estimator_.get_params())
 print_best_params(svr)
-
-
-# In[ ]:
-
 
 #print score
 print('\n\nsvr train score %.3f, svr test score: %.3f' % (
@@ -516,10 +364,6 @@ svr.score(X_test, y_test)))
 
 
 # ### DecisionTree Hyperparameter tuning: best parameters
-
-# In[ ]:
-
-
 param_grid_dt = dict(min_samples_leaf=np.arange(9, 13, 1, int), 
                   max_depth = np.arange(4,7,1, int),
                   min_impurity_decrease = [0, 1, 2],
@@ -527,22 +371,9 @@ param_grid_dt = dict(min_samples_leaf=np.arange(9, 13, 1, int),
 
 dt = GridSearchCV(DecisionTreeRegressor(random_state=0), param_grid=param_grid_dt, cv=5,  verbose=3)
 
-
-# In[ ]:
-
-
 #fit model
 dt = dt.fit(X_train,y_train.values.ravel());
-
-
-# In[ ]:
-
-
 print_best_params(dt)
-
-
-# In[ ]:
-
 
 #print score
 print('\n\ndt train score %.3f, dt test score: %.3f' % (
@@ -551,10 +382,6 @@ dt.score(X_test, y_test)))
 
 
 # ### Random Forest hyperparameter tuning: best parameters
-
-# In[ ]:
-
-
 param_grid_rf = dict(n_estimators=[20],
                      max_depth=np.arange(1, 13, 2),
                      min_samples_split=[2],
@@ -565,22 +392,9 @@ param_grid_rf = dict(n_estimators=[20],
 
 forest = GridSearchCV(RandomForestRegressor(random_state=0), param_grid=param_grid_rf, cv=5, verbose=3)
 
-
-# In[ ]:
-
-
 #fit model
 forest.fit(X_train,y_train.values.ravel());
-
-
-# In[ ]:
-
-
 print_best_params(forest)
-
-
-# In[ ]:
-
 
 #print score
 print('\n\nforest train score %.3f, forest test score: %.3f' % (
