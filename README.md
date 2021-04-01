@@ -6,4 +6,4 @@ Predictive analytics statistical techniques include data modeling, machine learn
 
 The core of predictive analytics relies on capturing relationships between explanatory variables and the predicted variables from past occurrences, and exploiting them to predict the unknown outcome. It is important to note, however, that the accuracy and usability of results will depend greatly on the level of data analysis and the quality of assumptions.
 
-Source: Wikipedia
+Source: Wikipedia https://img.shields.io/static/v1?label=<LABEL>&message=<MESSAGE>&color=<COLOR>
