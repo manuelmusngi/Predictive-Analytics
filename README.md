@@ -13,4 +13,4 @@ Companies use predictive modeling to forecast events, customer behavior, as well
 The projects included in this repository are examples of Predictive Modeling.
 
 Wikipedia resource: 
-https://en.wikipedia.org/wiki/Predictive_modelling
+- https://en.wikipedia.org/wiki/Predictive_modelling
